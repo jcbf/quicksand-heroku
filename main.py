@@ -33,12 +33,7 @@ def keys_string(d):
     return rval
 
 
-@app.post("/files/")
-async def create_file(file: bytes = File()):
-    return {"file_size": len(file)}
-
-
-@app.post("/uploadfile/")
+@app.post("/scan")
 async def create_upload_file(file: UploadFile = File()):
     request_time = str(time.time())
     file_location = f"/tmp/{file.filename}.{request_time}"
@@ -48,5 +43,3 @@ async def create_upload_file(file: UploadFile = File()):
     qs = quicksand(file_location, capture=False )
     qs.process()
     return json.loads(json.dumps(keys_string(qs.results), cls=BytesDump,sort_keys=True))
-#    return {"info": f"file '{file.filename}' saved at '{file_location}'","result":keys_string(qs.results)}
-
