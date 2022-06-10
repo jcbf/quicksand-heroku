@@ -41,7 +41,7 @@ async def create_file(file: bytes = File()):
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File()):
     request_time = str(time.time())
-    file_location = f"files/{file.filename}.{request_time}"
+    file_location = f"/tmp/{file.filename}.{request_time}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
